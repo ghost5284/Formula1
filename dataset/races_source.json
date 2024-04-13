@@ -1,0 +1,78 @@
+{
+	"name": "races_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageFormula",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "schedule_",
+				"fileSystem": "schedule"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"val": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"season": {
+								"type": "string"
+							},
+							"round": {
+								"type": "string"
+							},
+							"url": {
+								"type": "string"
+							},
+							"raceName": {
+								"type": "string"
+							},
+							"Circuit": {
+								"type": "object",
+								"properties": {
+									"circuitId": {
+										"type": "string"
+									},
+									"url": {
+										"type": "string"
+									},
+									"circuitName": {
+										"type": "string"
+									},
+									"Location": {
+										"type": "object",
+										"properties": {
+											"lat": {
+												"type": "string"
+											},
+											"long": {
+												"type": "string"
+											},
+											"locality": {
+												"type": "string"
+											},
+											"country": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							},
+							"date": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

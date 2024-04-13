@@ -1,0 +1,101 @@
+{
+	"name": "pip_even_add",
+	"properties": {
+		"activities": [
+			{
+				"name": "act_forEach",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.array_lst",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "act_if_check",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(mod(item(),2),0)",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "even_array",
+										"type": "AppendVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "even_no",
+											"value": {
+												"value": "@item()",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "act_even_nos",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "act_forEach",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "even",
+					"value": {
+						"value": "@variables('even_no')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"array_lst": {
+				"type": "array",
+				"defaultValue": [
+					1,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10
+				]
+			}
+		},
+		"variables": {
+			"even_no": {
+				"type": "Array"
+			},
+			"even": {
+				"type": "Array"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-03-20T17:07:00Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

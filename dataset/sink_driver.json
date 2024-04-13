@@ -1,0 +1,19 @@
+{
+	"name": "sink_driver",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageFormula",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "driver"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

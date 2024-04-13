@@ -1,0 +1,19 @@
+{
+	"name": "sink_schedule",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageFormula",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "trial"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

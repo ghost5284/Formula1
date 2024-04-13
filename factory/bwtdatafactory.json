@@ -1,0 +1,9 @@
+{
+	"name": "bwtdatafactory",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0d3ed63a-8901-42b1-b045-5a95b60392e9",
+		"tenantId": "bce48c9e-5b32-48d9-8d6d-bc45636e6aa7"
+	}
+}

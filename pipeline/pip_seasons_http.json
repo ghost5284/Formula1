@@ -1,0 +1,69 @@
+{
+	"name": "pip_seasons_http",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_seasons_data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "seasons_data",
+						"type": "DatasetReference",
+						"parameters": {
+							"base_url": "http://ergast.com/api/f1/",
+							"relative_url": "seasons.json"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "seasosn_sink",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"variables": {
+			"set_season": {
+				"type": "String"
+			},
+			"set_round": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-04-12T11:11:47Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,53 @@
+{
+	"name": "pip_delete_files",
+	"properties": {
+		"activities": [
+			{
+				"name": "Delete file",
+				"type": "Delete",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_delete_file",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": {
+								"value": "@concat(pipeline().parameters.file_name,'.txt')",
+								"type": "Expression"
+							},
+							"folder_name": {
+								"value": "@pipeline().parameters.folder_name",
+								"type": "Expression"
+							}
+						}
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": false,
+						"enablePartitionDiscovery": false
+					}
+				}
+			}
+		],
+		"parameters": {
+			"file_name": {
+				"type": "string"
+			},
+			"folder_name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-03-22T18:25:34Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

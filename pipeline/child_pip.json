@@ -1,0 +1,91 @@
+{
+	"name": "child_pip",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_child",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.race_list",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 3,
+					"activities": [
+						{
+							"name": "Set season",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "set-season",
+								"value": {
+									"value": "@item().season",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set round",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "set round",
+								"value": {
+									"value": "@item().round",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"race_list": {
+				"type": "array"
+			}
+		},
+		"variables": {
+			"set": {
+				"type": "Array"
+			},
+			"append_year": {
+				"type": "Array"
+			},
+			"append_val": {
+				"type": "Array"
+			},
+			"set_val": {
+				"type": "Array"
+			},
+			"set-season": {
+				"type": "String"
+			},
+			"set round": {
+				"type": "String"
+			},
+			"set_season": {
+				"type": "String"
+			},
+			"set_round": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-04-12T11:11:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

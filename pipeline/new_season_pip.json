@@ -1,0 +1,126 @@
+{
+	"name": "new_season_pip",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web_act",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": "http://ergast.com/api/f1/seasons.json"
+				}
+			},
+			{
+				"name": "Set_seasons_data",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Web_act",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "seasons_data_1",
+					"value": {
+						"value": "@activity('Web_act').output.MRData.SeasonTable.Seasons",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Copy_seasons_data",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Set_seasons_data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"additionalColumns": [
+							{
+								"name": "my_data",
+								"value": {
+									"value": "@string(variables('seasons_data_1'))",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "source_seasons_data",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "sink_seasons_data",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"variables": {
+			"seasons_data": {
+				"type": "Array"
+			},
+			"seasons_data_1": {
+				"type": "Array"
+			},
+			"seasons_data_http": {
+				"type": "Array"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-04-09T18:23:52Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
