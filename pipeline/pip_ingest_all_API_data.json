@@ -5,8 +5,6 @@
 			{
 				"name": "Copy_seasons_data",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "act_lookup_metadata_enter",
@@ -343,7 +341,7 @@
 					"source": {
 						"type": "AzurePostgreSqlSource",
 						"query": {
-							"value": "\nupdate my_table.formula1_metadata\nset status = 'sucess',\n\t\tend_time  = '@{utcNow('yyyy_MM-dd HH:mm:ss')}'\nwhere job_id ='@{variables('start_time')}' and task_name ='session_spi';\n\nselect job_id from my_table.formula1_metadata;",
+							"value": "\nupdate my_table.formula1_metadata\nset status = 'sucess',\n    end_time  = '@{utcNow('yyyy_MM-dd HH:mm:ss')}' \nwhere job_id ='@{variables('start_time'),('yyyyMMddHHmmss')}' and task_name ='session_api';\n\nselect job_id from my_table.formula1_metadata;",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
