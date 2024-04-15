@@ -1,0 +1,65 @@
+{
+	"name": "pip_test",
+	"properties": {
+		"activities": [
+			{
+				"name": "act_set_var_start_time",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "start_time",
+					"value": {
+						"value": "@utcNow('yyyy-MM-dd HH:MM:ss')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "act_lookup_metadata_enter",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "act_set_var_start_time",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"query": {
+							"value": "INSERT INTO my_table.formula1_metadata\n(job_id, job_name, task_name, status, start_time)\nVALUES(\n'@{formatDateTime(variables('start_time'))}',\n 'pip_ingest_all_API_data', \n 'session_api',\n  'In_progress', \n  '@{variables('start_time')}');\n\n  select job_id from my_table.formula1_metadata",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzurePostgreSqlTable1",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"variables": {
+			"start_time": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
