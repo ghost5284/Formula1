@@ -319,6 +319,77 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "act_lookup_metadata_session_update_enter_copy1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Copy_seasons_data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"query": {
+							"value": "\nupdate my_table.formula1_metadata\nset status = 'sucess',\n\t\tend_time  = '@{utcNow('yyyy_MM-dd HH:mm:ss')}'\nwhere job_id ='@{variables('start_time')}' and task_name ='session_spi';\n\nselect job_id from my_table.formula1_metadata;",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzurePostgreSqlTable1",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "act_lookup_metadata_session_fail_enter_copy1_copy1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Copy_seasons_data",
+						"dependencyConditions": [
+							"Failed",
+							"Skipped"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"query": {
+							"value": "\nupdate my_table.formula1_metadata\nset status = 'Fail',\n\t\tend_time  = '@{utcNow('yyyy_MM-dd HH:mm:ss')}'\nwhere job_id ='@{variables('start_time')}' and task_name ='session_spi';\n\nselect job_id from my_table.formula1_metadata;",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzurePostgreSqlTable1",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
 			}
 		],
 		"variables": {
