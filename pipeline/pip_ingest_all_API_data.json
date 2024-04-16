@@ -289,7 +289,7 @@
 					"source": {
 						"type": "AzurePostgreSqlSource",
 						"query": {
-							"value": "INSERT INTO my_table.formula1_metadata\n(job_id, job_name, task_name, status, start_time)\nVALUES(\n'@{formatDateTime(variables('start_time'))}',\n 'pip_ingest_all_API_data', \n 'session_api',\n  'In_progress', \n  '@{variables('start_time')}');\n\n  INSERT INTO my_table.formula1_metadata\n(job_id, job_name, task_name, status, start_time)\nVALUES(\n'@{formatDateTime(variables('start_time'))}',\n 'pip_ingest_all_API_data', \n 'race_api',\n  'In_progress', \n  '@{variables('start_time')}');\n\n  INSERT INTO my_table.formula1_metadata\n(job_id, job_name, task_name, status, start_time)\nVALUES(\n'@{formatDateTime(variables('start_time'))}',\n 'pip_ingest_all_API_data', \n 'result_api',\n  'In_progress', \n  '@{variables('start_time')}');\n\n  select job_id from my_table.formula1_metadata",
+							"value": "INSERT INTO my_table.formula1_metadata\n(job_id, job_name, task_name, status, start_time)\nVALUES(\n'@{formatDateTime(variables('start_time'),'yyyyMMddHHmmss')}',\n 'pip_ingest_all_API_data', \n 'session_api',\n  'In_progress', \n  '@{variables('start_time')}');\n\n  INSERT INTO my_table.formula1_metadata\n(job_id, job_name, task_name, status, start_time)\nVALUES(\n'@{formatDateTime(variables('start_time'),'yyyyMMddHHmmss')}',\n 'pip_ingest_all_API_data', \n 'race_api',\n  'In_progress', \n  '@{variables('start_time')}');\n\n  INSERT INTO my_table.formula1_metadata\n(job_id, job_name, task_name, status, start_time)\nVALUES(\n'@{formatDateTime(variables('start_time'),'yyyyMMddHHmmss')}',\n 'pip_ingest_all_API_data', \n 'result_api',\n  'In_progress', \n  '@{variables('start_time')}');\n\n  select job_id from my_table.formula1_metadata",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
@@ -341,7 +341,7 @@
 					"source": {
 						"type": "AzurePostgreSqlSource",
 						"query": {
-							"value": "\nupdate my_table.formula1_metadata\nset status = 'sucess',\n    end_time  = '@{utcNow('yyyy_MM-dd HH:mm:ss')}' \nwhere job_id ='@{variables('start_time')}' and task_name ='session_api';\n\nselect job_id from my_table.formula1_metadata;",
+							"value": "\nupdate my_table.formula1_metadata\nset status = 'sucess',\n    end_time  = '@{utcNow('yyyy-MM-dd HH:mm:ss')}' \nwhere job_id ='@{formatDateTime(variables('start_time'),'yyyyMMddHHmmss')}' and task_name ='session_api';\n\nselect job_id from my_table.formula1_metadata;",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
@@ -377,7 +377,7 @@
 					"source": {
 						"type": "AzurePostgreSqlSource",
 						"query": {
-							"value": "\nupdate my_table.formula1_metadata\nset status = 'Fail',\n\t\tend_time  = '@{utcNow('yyyy_MM-dd HH:mm:ss')}'\nwhere job_id ='@{variables('start_time')}' and task_name ='session_spi';\n\nselect job_id from my_table.formula1_metadata;",
+							"value": "\nupdate my_table.formula1_metadata\nset status = 'Fail',\n\t\tend_time  = '@{utcNow('yyyy-MM-dd HH:mm:ss')}'\nwhere job_id ='@{formatDateTime(variables('start_time'),'yyyyMMddHHmmss')}' and task_name ='session_api';\n\nselect job_id from my_table.formula1_metadata;",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
