@@ -294,10 +294,6 @@
 						},
 						"partitionOption": "None"
 					},
-					"dataset": {
-						"referenceName": "AzurePostgreSqlTable1",
-						"type": "DatasetReference"
-					},
 					"firstRowOnly": false
 				}
 			},
@@ -346,10 +342,6 @@
 						},
 						"partitionOption": "None"
 					},
-					"dataset": {
-						"referenceName": "AzurePostgreSqlTable1",
-						"type": "DatasetReference"
-					},
 					"firstRowOnly": false
 				}
 			},
@@ -381,10 +373,6 @@
 							"type": "Expression"
 						},
 						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "AzurePostgreSqlTable1",
-						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
 				}

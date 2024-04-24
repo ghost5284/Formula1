@@ -201,6 +201,12 @@
 			},
 			"set_round": {
 				"type": "String"
+			},
+			"set round": {
+				"type": "String"
+			},
+			"set_ingest_time": {
+				"type": "String"
 			}
 		},
 		"annotations": [],
