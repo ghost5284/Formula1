@@ -213,7 +213,7 @@
 				}
 			},
 			{
-				"name": "act_for_each_races",
+				"name": "ForEach1",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -241,12 +241,12 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "child_pip",
+									"referenceName": "child_pipline",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true,
 								"parameters": {
-									"races": {
+									"race_lst": {
 										"value": "@item().MRData.RaceTable.Races",
 										"type": "Expression"
 									}
@@ -255,6 +255,23 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "set_ingest_time",
+					"value": {
+						"value": "@utcNow('yyyyMMdd')",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
@@ -262,6 +279,12 @@
 				"type": "String"
 			},
 			"set_rounds": {
+				"type": "String"
+			},
+			"set_round": {
+				"type": "String"
+			},
+			"set_ingest_time": {
 				"type": "String"
 			}
 		},

@@ -235,7 +235,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('act_lookup_read_race_schedule').output.value",
+						"value": "@activity('act_ingest_race_result_data').output.value",
 						"type": "Expression"
 					},
 					"isSequential": false,
@@ -398,6 +398,9 @@
 				"type": "String"
 			},
 			"start_time": {
+				"type": "String"
+			},
+			"set_ingest_time": {
 				"type": "String"
 			}
 		},

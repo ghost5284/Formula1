@@ -1,5 +1,5 @@
 {
-	"name": "child_pip",
+	"name": "child_pipline",
 	"properties": {
 		"activities": [
 			{
@@ -9,13 +9,13 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@pipeline().parameters.races",
+						"value": "@pipeline().parameters.race_lst",
 						"type": "Expression"
 					},
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Set seasons",
+							"name": "Set variable1",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -24,7 +24,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "set_seasons",
+								"variableName": "set_season",
 								"value": {
 									"value": "@item().season",
 									"type": "Expression"
@@ -32,7 +32,7 @@
 							}
 						},
 						{
-							"name": "Set rounds",
+							"name": "Set variable2",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -41,7 +41,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "set_rounds",
+								"variableName": "set_round",
 								"value": {
 									"value": "@item().round",
 									"type": "Expression"
@@ -49,17 +49,17 @@
 							}
 						},
 						{
-							"name": "copy_results_data",
+							"name": "Copy data1",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set seasons",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
 								},
 								{
-									"activity": "Set rounds",
+									"activity": "Set variable2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -97,12 +97,12 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "source_results",
+									"referenceName": "Json1",
 									"type": "DatasetReference",
 									"parameters": {
-										"base_url": "http://ergast.com/api/f1/",
-										"resl_url": {
-											"value": "@concat(variables('set_seasons'),'/',variables('set_seasons'),'/results.json')\n",
+										"b_url": "http://ergast.com/api/f1/",
+										"rela_url": {
+											"value": "@concat(variables('set_season'),'/',variables('set_round'),'/results.json')",
 											"type": "Expression"
 										}
 									}
@@ -110,7 +110,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "sink_results",
+									"referenceName": "Json3",
 									"type": "DatasetReference"
 								}
 							]
@@ -120,17 +120,11 @@
 			}
 		],
 		"parameters": {
-			"races": {
+			"race_lst": {
 				"type": "array"
 			}
 		},
 		"variables": {
-			"set_seasons": {
-				"type": "String"
-			},
-			"set_rounds": {
-				"type": "String"
-			},
 			"set_season": {
 				"type": "String"
 			},
@@ -144,8 +138,6 @@
 				"type": "String"
 			}
 		},
-		"annotations": [],
-		"lastPublishTime": "2024-04-24T07:23:07Z"
-	},
-	"type": "Microsoft.DataFactory/factories/pipelines"
+		"annotations": []
+	}
 }

@@ -1,15 +1,21 @@
 {
-	"name": "driver_source",
+	"name": "Json1",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "HttpServer1",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"base_url": {
+					"value": "@dataset().b_url",
+					"type": "Expression"
+				}
+			}
 		},
 		"parameters": {
-			"base_url": {
+			"b_url": {
 				"type": "string"
 			},
-			"relative_url": {
+			"rela_url": {
 				"type": "string"
 			}
 		},
@@ -19,12 +25,11 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": {
-					"value": "@dataset().relative_url",
+					"value": "@dataset().rela_url",
 					"type": "Expression"
 				}
 			}
 		},
 		"schema": {}
-	},
-	"type": "Microsoft.DataFactory/factories/datasets"
+	}
 }
