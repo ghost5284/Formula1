@@ -5,9 +5,14 @@
 			{
 				"name": "act_copy_seasons_data",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup_all_metadata",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -176,6 +181,8 @@
 			{
 				"name": "act_lookup_races",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "act_for_each",
@@ -215,6 +222,8 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "act_lookup_races",
@@ -268,9 +277,79 @@
 				"typeProperties": {
 					"variableName": "set_ingest_time",
 					"value": {
-						"value": "@utcNow('yyyyMMdd')",
+						"value": "@utcNow('yyyyMMdd HH:mm:ss')",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "Lookup_all_metadata",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"query": {
+							"value": "INSERT INTO public.formula1 (job_id, job_name, task_name, status, start_time)\nVALUES (\n    '@{variables('set_ingest_time')}',\n    'formulafactory12',\n    'session_api',\n    'in_progress',\n    '@{variables('set_ingest_time')}'\n);\n\nINSERT INTO public.formula1 (job_id, job_name, task_name, status, start_time)\nVALUES (\n    '@{variables('set_ingest_time')}',\n    'formulafactory12',\n    'races_api',\n    'in_progress',\n    '@{variables('set_ingest_time')}'\n);\nINSERT INTO public.formula1 (job_id, job_name, task_name, status, start_time)\nVALUES (\n    '@{variables('set_ingest_time')}',\n    'formulafactory12',\n    'result_api',\n    'in_progress',\n    '@{variables('set_ingest_time')}'\n);\n\nSELECT job_id FROM public.formula1;\n",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzurePostgreSqlTable1",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Lookup_update_session",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "act_copy_seasons_data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"query": {
+							"value": "UPDATE public.formula1\nSET status='sucess',end_time='@{utcNow('yyyyMMdd HH:mm:ss')}'\nwhere job_id ='@{variables('set_ingest_time')}' and task_name = 'session_api';\n\n\nSELECT job_id FROM public.formula1;\n",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzurePostgreSqlTable1",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
