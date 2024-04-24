@@ -1,0 +1,67 @@
+{
+	"name": "lookup_seasons",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage_formula",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "seasons.json",
+				"folderPath": "seasons/20240424",
+				"fileSystem": "rawapi"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"MRData": {
+					"type": "object",
+					"properties": {
+						"xmlns": {
+							"type": "string"
+						},
+						"series": {
+							"type": "string"
+						},
+						"url": {
+							"type": "string"
+						},
+						"limit": {
+							"type": "string"
+						},
+						"offset": {
+							"type": "string"
+						},
+						"total": {
+							"type": "string"
+						},
+						"SeasonTable": {
+							"type": "object",
+							"properties": {
+								"Seasons": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"season": {
+												"type": "string"
+											},
+											"url": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

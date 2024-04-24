@@ -1,0 +1,9 @@
+{
+	"name": "formulafactory12",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "eda43be5-f7c1-4e35-bf99-edebd625c31c",
+		"tenantId": "afb152a9-affd-460e-a7ab-0407bbafbb38"
+	}
+}

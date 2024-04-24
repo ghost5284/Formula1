@@ -1,5 +1,5 @@
 {
-	"name": "source_results",
+	"name": "season_source",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "HttpServer1",
@@ -15,7 +15,7 @@
 			"base_url": {
 				"type": "string"
 			},
-			"resl_url": {
+			"rel_url": {
 				"type": "string"
 			}
 		},
@@ -25,7 +25,7 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": {
-					"value": "@dataset().resl_url",
+					"value": "@dataset().rel_url",
 					"type": "Expression"
 				}
 			}
