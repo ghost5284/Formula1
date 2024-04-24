@@ -351,6 +351,41 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "Lookup_update_races_time",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "act_for_each",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"query": {
+							"value": "UPDATE public.formula1\nSET status='sucess',end_time='@{utcNow('yyyyMMdd HH:mm:ss')}'\nwhere job_id ='@{variables('set_ingest_time')}' and task_name = 'races_api';\n\n\nSELECT job_id FROM public.formula1;\n",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzurePostgreSqlTable1",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
 			}
 		],
 		"variables": {
