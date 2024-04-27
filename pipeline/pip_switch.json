@@ -139,6 +139,18 @@
 								}
 							]
 						}
+					],
+					"defaultActivities": [
+						{
+							"name": "Fail1",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"message": "fileNotAvilable",
+								"errorCode": "400"
+							}
+						}
 					]
 				}
 			}
